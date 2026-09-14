@@ -41,6 +41,27 @@ public sealed class TrayEarnerTests(WpfTestFixture fixture)
         });
     }
 
+    [Fact]
+    public void OpeningPopupDoesNotFocusSplitStartControls()
+    {
+        fixture.Run(() =>
+        {
+            var popup = new TrayEarnerWindow { Opacity = 0, ShowActivated = false };
+
+            try
+            {
+                popup.Open(new(0, 0, 1, 1));
+
+                Assert.False(popup.LiveView.StartPause.IsKeyboardFocused);
+                Assert.False(popup.LiveView.StartOptions.IsKeyboardFocused);
+            }
+            finally
+            {
+                popup.Exit();
+            }
+        });
+    }
+
     [Theory]
     [InlineData(1800, 1050)]
     [InlineData(0, 0)]

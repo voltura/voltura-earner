@@ -57,7 +57,7 @@ public partial class TrayEarnerWindow : Window
         Show();
         TrayEarnerPlacement.Place(this, anchor);
         Activate();
-        LiveView.StartPause.Focus();
+        Keyboard.ClearFocus();
     }
     internal void DismissOnDeactivate()
     {
