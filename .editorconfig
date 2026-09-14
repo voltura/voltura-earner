@@ -1,0 +1,14 @@
+root = true
+
+[*.cs]
+indent_style = space
+indent_size = 4
+csharp_prefer_braces = true:warning
+csharp_new_line_before_open_brace = all
+# CodeStyle enforces multiline executable blocks; preserve compact auto-properties here.
+csharp_preserve_single_line_blocks = true
+csharp_preserve_single_line_statements = false
+dotnet_diagnostic.CA2007.severity = none
+# This desktop app deliberately resumes on the WPF dispatcher.
+dotnet_diagnostic.CA1515.severity = none
+# Small domain types are public for the separately compiled test assembly.

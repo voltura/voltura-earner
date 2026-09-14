@@ -1,0 +1,84 @@
+name: Bug report
+description: Report a reproducible Voltura Earner problem.
+title: "[Bug]: "
+labels: []
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Voltura Earner. Remove private information from logs and screenshots. Report security vulnerabilities privately using [SECURITY.md](https://github.com/voltura/voltura-earner/blob/main/SECURITY.md).
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Time, earnings, or overtime
+        - Work history or Excel export
+        - Tray icon or notifications
+        - Appearance or accessibility
+        - Settings or start with Windows
+        - Installation or update
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: app-version
+    attributes:
+      label: Voltura Earner version
+      description: Copy the version shown on the About page.
+    validations:
+      required: true
+  - type: input
+    id: windows-version
+    attributes:
+      label: Windows version
+      description: Include the version and build shown by winver.
+    validations:
+      required: true
+  - type: dropdown
+    id: installation
+    attributes:
+      label: Installation type
+      options:
+        - Standard installer
+        - Offline installer (full)
+        - Portable ZIP
+        - Built from source
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: tracking-settings
+    attributes:
+      label: Tracking and regional settings
+      description: Include the hourly rate, daily target and cost, relevant dates, and Windows regional format. Use sample data without private client details.
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Give the shortest repeatable sequence, including the starting state.
+      placeholder: |
+        1. Open...
+        2. Select...
+        3. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description: Include visible error text when available.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Screenshots and additional context
+      description: For display problems, include monitor scaling, monitor layout, and whether reconnecting a display triggers the issue. Attach redacted application or setup logs only when relevant, and say whether restarting the app helps.

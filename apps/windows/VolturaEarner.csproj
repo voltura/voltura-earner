@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <!-- The executable manifest establishes awareness before WPF initializes. -->
+    <NoWarn>$(NoWarn);WFO0003</NoWarn>
+    <ApplicationIcon Condition="Exists('Assets/App.ico')">Assets/App.ico</ApplicationIcon>
+    <AssemblyVersion>$(Version).0</AssemblyVersion>
+    <FileVersion>$(Version).0</FileVersion>
+    <InformationalVersion>$(Version)</InformationalVersion>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <Title>Voltura Earner</Title>
+    <AssemblyTitle>Voltura Earner</AssemblyTitle>
+    <Product>Voltura Earner</Product>
+    <Company>Voltura AB</Company>
+    <Authors>Voltura AB</Authors>
+    <Copyright>Copyright (c) 2026 Voltura AB</Copyright>
+    <Description>Track work, earnings, and overtime with accurate local reports.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Assets/App.ico"/>
+    <EmbeddedResource Include="Features/Localization/Translations/*.json"/>
+    <RuntimeHostConfigurationOption Include="Switch.System.Windows.DoNotScaleForDpiChanges" Value="false"/>
+    <EmbeddedResource Include="Features/Updates/update-signing-public.pem" Condition="Exists('Features/Updates/update-signing-public.pem')"/>
+    <None Include="../../LICENSE" Link="LICENSE.txt" CopyToOutputDirectory="PreserveNewest"/>
+    <None Include="../../NOTICE.md" Link="NOTICE.md" CopyToOutputDirectory="PreserveNewest"/>
+    <None Include="../../THIRD-PARTY-NOTICES.md" Link="THIRD-PARTY-NOTICES.md" CopyToOutputDirectory="PreserveNewest"/>
+    <None Include="../../docs/licenses/*" Link="ThirdPartyNotices/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest"/>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MiniExcel" Version="1.46.0"/>
+  </ItemGroup>
+</Project>

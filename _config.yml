@@ -1,0 +1,25 @@
+title: Voltura Earner
+description: Track work, earnings, and overtime with clear local reports.
+url: https://voltura.github.io
+baseurl: /voltura-earner
+lang: en
+repository: voltura/voltura-earner
+exclude:
+  - artifacts
+  - TestResults
+  - apps
+  - installer
+  - scripts
+  - tests
+  - tools
+  - CONTRIBUTING.md
+  - CODE_OF_CONDUCT.md
+  - NOTICE.md
+  - PRIVACY.md
+  - SECURITY.md
+  - THIRD-PARTY-NOTICES.md
+  - IMPLEMENTATION-PLAN.md
+  - VolturaEarner.slnx
+  - Directory.Build.props
+  - global.json
+  - version.json

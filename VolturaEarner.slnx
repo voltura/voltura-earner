@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="apps/windows/VolturaEarner.csproj"/>
+  <Project Path="tests/VolturaEarner.Tests/VolturaEarner.Tests.csproj"/>
+</Solution>

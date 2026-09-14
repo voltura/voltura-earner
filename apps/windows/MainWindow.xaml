@@ -1,0 +1,312 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="clr-namespace:VolturaEarner.Ui" x:Class="VolturaEarner.MainWindow" Title="Voltura Earner" Width="720" Height="800" MinWidth="540" MinHeight="520" Background="{DynamicResource WindowBrush}" Foreground="{DynamicResource TextBrush}" WindowStartupLocation="CenterScreen" FontFamily="Segoe UI" FontSize="14" UseLayoutRounding="True" SnapsToDevicePixels="True">
+  <Window.Resources>
+    <Style x:Key="Card" TargetType="Border">
+      <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="12"/>
+      <Setter Property="Padding" Value="16"/>
+      <Setter Property="Margin" Value="0,0,0,12"/>
+    </Style>
+    <Style TargetType="TextBox" BasedOn="{StaticResource ThemedTextBox}">
+      <Setter Property="Margin" Value="0,4,0,12"/>
+    </Style>
+    <Style TargetType="CheckBox" BasedOn="{StaticResource ThemedCheckBox}">
+      <Setter Property="Margin" Value="0,5"/>
+    </Style>
+  </Window.Resources>
+  <Border x:Name="RootSurface" Background="{DynamicResource WindowBrush}">
+    <DockPanel Margin="24">
+      <Grid DockPanel.Dock="Top" Margin="0,0,0,20">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+          <TextBlock Text="Voltura Earner" FontSize="23" FontWeight="SemiBold"/>
+        </StackPanel>
+        <Border Grid.Column="1" Background="{DynamicResource SurfaceBrush}" CornerRadius="12" Padding="12,7" VerticalAlignment="Center">
+          <TextBlock x:Name="TrackingState" Text="{ui:Loc LoadingMore}" FontWeight="SemiBold"/>
+        </Border>
+      </Grid>
+      <Border DockPanel.Dock="Bottom" Background="{DynamicResource SurfaceBrush}" CornerRadius="8" Padding="12" Margin="0,16,0,0">
+        <DockPanel>
+          <Button x:Name="CancelOperation" DockPanel.Dock="Right" Content="{ui:Loc CancelExport}" MinWidth="155" Width="Auto" Height="36" Tag="cancel-export" ui:ButtonIcon.Glyph="" Click="ActionClick" Visibility="Collapsed"/>
+          <TextBlock x:Name="StatusText" Text="{ui:Loc LoadingMore}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+        </DockPanel>
+      </Border>
+      <TabControl x:Name="Pages" SelectionChanged="PageChanged" Background="Transparent" BorderThickness="0">
+        <TabControl.Resources>
+          <Style TargetType="TabItem">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="0,0,2,0"/>
+            <Setter Property="Padding" Value="8,0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                  <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
+                    <ContentPresenter ContentSource="Header" Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+                    </Trigger>
+                    <Trigger Property="IsKeyboardFocused" Value="True">
+                      <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                      <Setter Property="Panel.ZIndex" Value="1"/>
+                      <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
+                      <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+                      <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                      <Setter Property="Opacity" Value="0.5"/>
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </TabControl.Resources>
+        <TabControl.Template>
+          <ControlTemplate TargetType="TabControl">
+            <Grid KeyboardNavigation.TabNavigation="Local">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+              </Grid.RowDefinitions>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <WrapPanel IsItemsHost="True" KeyboardNavigation.TabIndex="1"/>
+                <ToggleButton x:Name="HeaderPinToggle" Grid.Column="1" Style="{StaticResource HeaderPinToggle}" Margin="12,0,0,0" VerticalAlignment="Top" IsChecked="{Binding Topmost, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" Click="AlwaysOnTopClick" ToolTip="{ui:Loc AlwaysOnTop}" AutomationProperties.Name="{ui:Loc AlwaysOnTop}" AutomationProperties.HelpText="{ui:Loc AlwaysOnTop}" KeyboardNavigation.TabIndex="2">
+                  <TextBlock Text="" Style="{StaticResource ButtonGlyph}" FontSize="16" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}">
+                    <TextBlock.RenderTransform>
+                      <TranslateTransform Y="-1"/>
+                    </TextBlock.RenderTransform>
+                  </TextBlock>
+                </ToggleButton>
+              </Grid>
+              <ContentPresenter x:Name="PART_SelectedContentHost" Grid.Row="1" ContentSource="SelectedContent"/>
+            </Grid>
+          </ControlTemplate>
+        </TabControl.Template>
+        <TabItem Header="{ui:Loc Today}">
+          <ScrollViewer Focusable="False" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,20,0,0">
+              <ui:LiveEarningsView x:Name="LiveView"/>
+              <WrapPanel>
+                <Button Content="{ui:Loc ExportToday}" MinWidth="210" Width="Auto" Tag="export-today" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,10,8"/>
+                <Button Content="{ui:Loc ResetTodayMore}" MinWidth="150" Width="Auto" Tag="reset" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,0,8"/>
+              </WrapPanel>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+        <TabItem Header="{ui:Loc WorkLog}">
+          <Grid Margin="0,20,0,0">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition/>
+              <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <WrapPanel Margin="0,0,0,14">
+              <ComboBox x:Name="PeriodChoice" MinWidth="130" Width="Auto" MinHeight="36" SelectedIndex="0" SelectionChanged="PeriodChanged" AutomationProperties.Name="{ui:Loc ReportPeriod}">
+                <ComboBoxItem Content="{ui:Loc Today}"/>
+                <ComboBoxItem Content="{ui:Loc ThisWeek}"/>
+                <ComboBoxItem Content="{ui:Loc ThisMonth}"/>
+                <ComboBoxItem Content="{ui:Loc ThisYear}"/>
+                <ComboBoxItem Content="{ui:Loc AllHistory}"/>
+              </ComboBox>
+              <Button Content="{ui:Loc Refresh}" MinWidth="100" Width="Auto" Tag="refresh-history" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="8,0"/>
+              <Button Content="{ui:Loc ExportExcelMore}" MinWidth="150" Width="Auto" Tag="export" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,0,8"/>
+            </WrapPanel>
+            <DataGrid x:Name="WorkGrid" Grid.Row="1" Style="{StaticResource ThemedWorkGrid}" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" RowHeaderWidth="0" SelectionMode="Single" CanUserAddRows="False" CanUserReorderColumns="False" EnableRowVirtualization="True" EnableColumnVirtualization="True" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.CanContentScroll="True" AutomationProperties.Name="{ui:Loc WorkRecords}">
+              <DataGrid.Columns>
+                <DataGridTextColumn HeaderStyle="{StaticResource WorkColumnHeaderStyle}" ElementStyle="{StaticResource WorkCellText}" HeaderTemplate="{StaticResource WorkColumnHeader}" Header="{ui:Loc Date}" Binding="{Binding Date}" Width="Auto" MinWidth="88" MaxWidth="110"/>
+                <DataGridTextColumn HeaderStyle="{StaticResource WorkColumnHeaderStyle}" ElementStyle="{StaticResource WorkCellText}" HeaderTemplate="{StaticResource WorkColumnHeader}" Header="{ui:Loc Task}" Binding="{Binding Task}" Width="2*" MinWidth="60"/>
+                <DataGridTextColumn HeaderStyle="{StaticResource WorkColumnHeaderStyle}" ElementStyle="{StaticResource WorkCellText}" HeaderTemplate="{StaticResource WorkColumnHeader}" Header="{ui:Loc Time}" Binding="{Binding Duration}" Width="Auto" MinWidth="70" MaxWidth="130"/>
+                <DataGridTextColumn HeaderStyle="{StaticResource WorkColumnHeaderStyle}" ElementStyle="{StaticResource WorkCellText}" HeaderTemplate="{StaticResource WorkColumnHeader}" Header="{ui:Loc Overtime}" Binding="{Binding Overtime}" Width="Auto" MinWidth="70" MaxWidth="130"/>
+                <DataGridTextColumn HeaderStyle="{StaticResource WorkColumnHeaderStyle}" ElementStyle="{StaticResource WorkCellText}" HeaderTemplate="{StaticResource WorkColumnHeader}" Header="{ui:Loc Earned}" Binding="{Binding Amount}" CanUserSort="False" Width="1.2*" MinWidth="80"/>
+              </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Row="2" Margin="0,4,0,0">
+              <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="8" Padding="1,10">
+                <Grid x:Name="WorkTotals" UseLayoutRounding="False" TextBlock.FontWeight="SemiBold" TextBlock.Foreground="{DynamicResource TextBrush}">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding Columns[0].ActualWidth, ElementName=WorkGrid}"/>
+                    <ColumnDefinition Width="{Binding Columns[1].ActualWidth, ElementName=WorkGrid}"/>
+                    <ColumnDefinition Width="{Binding Columns[2].ActualWidth, ElementName=WorkGrid}"/>
+                    <ColumnDefinition Width="{Binding Columns[3].ActualWidth, ElementName=WorkGrid}"/>
+                    <ColumnDefinition Width="{Binding Columns[4].ActualWidth, ElementName=WorkGrid}"/>
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.ColumnSpan="2" Text="{ui:Loc Total}" Margin="8,0" TextWrapping="Wrap"/>
+                  <TextBlock x:Name="TotalTime" Grid.Column="2" Text="{Binding Duration}" Margin="8,0"/>
+                  <TextBlock x:Name="TotalOvertime" Grid.Column="3" Text="{Binding Overtime}" Margin="8,0"/>
+                  <TextBlock x:Name="TotalEarned" Grid.Column="4" Text="{Binding Amount}" Margin="8,0" TextWrapping="Wrap"/>
+                </Grid>
+              </Border>
+              <WrapPanel Margin="0,10,0,0">
+                <Button Content="{ui:Loc AddEntryMore}" MinWidth="150" Width="Auto" Tag="add-record" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,8,8"/>
+                <Button Content="{ui:Loc EditMore}" MinWidth="110" Width="Auto" Tag="edit-record" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,8,8"/>
+                <Button Content="{ui:Loc DeleteMore}" MinWidth="120" Width="Auto" Tag="delete-record" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,8,8"/>
+                <Button Content="{ui:Loc EraseAllHistoryMore}" MinWidth="170" Width="Auto" Tag="erase" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,0,8"/>
+              </WrapPanel>
+            </StackPanel>
+          </Grid>
+        </TabItem>
+        <TabItem Header="{ui:Loc Preferences}">
+          <Grid Margin="0,20,0,0">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"/>
+              <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ScrollViewer Focusable="False" VerticalScrollBarVisibility="Auto">
+              <StackPanel>
+                <Border Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="{ui:Loc Earnings}" Style="{StaticResource SectionTitle}"/>
+                    <TextBlock Text="{ui:Loc HourlyRate}" Margin="0,14,0,0"/>
+                    <TextBox x:Name="RateInput" AutomationProperties.Name="{ui:Loc HourlyRate}" MaxLength="24"/>
+                    <TextBlock Text="{ui:Loc FixedDailyCost}"/>
+                    <TextBox x:Name="CostInput" AutomationProperties.Name="{ui:Loc FixedDailyCost}" MaxLength="24"/>
+                    <TextBlock Text="{ui:Loc RegularHoursPerDay}"/>
+                    <TextBox x:Name="HoursInput" AutomationProperties.Name="{ui:Loc DailyWorkingHours}" MaxLength="10"/>
+                    <TextBlock Text="{ui:Loc Overtime}"/>
+                    <ComboBox x:Name="OvertimeChoice" SelectedIndex="0" MinHeight="38" Margin="0,4,0,12" AutomationProperties.Name="{ui:Loc OvertimePolicy}">
+                      <ComboBoxItem Content="{ui:Loc NormalRate}"/>
+                      <ComboBoxItem Content="{ui:Loc CustomRate}"/>
+                      <ComboBoxItem Content="{ui:Loc NotAllowedStopAtLimit}"/>
+                    </ComboBox>
+                    <StackPanel>
+                      <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                          <Setter Property="Visibility" Value="Collapsed"/>
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedIndex, ElementName=OvertimeChoice}" Value="1">
+                              <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </StackPanel.Style>
+                      <TextBlock Text="{ui:Loc OvertimeHourlyRate}"/>
+                      <TextBox x:Name="OvertimeRateInput" AutomationProperties.Name="{ui:Loc OvertimeHourlyRate}" MaxLength="24">
+                        <TextBox.Style>
+                          <Style TargetType="TextBox" BasedOn="{StaticResource ThemedTextBox}">
+                            <Setter Property="Margin" Value="0,4,0,12"/>
+                            <Setter Property="IsEnabled" Value="False"/>
+                            <Style.Triggers>
+                              <DataTrigger Binding="{Binding SelectedIndex, ElementName=OvertimeChoice}" Value="1">
+                                <Setter Property="IsEnabled" Value="True"/>
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </TextBox.Style>
+                      </TextBox>
+                    </StackPanel>
+                    <TextBlock Text="{ui:Loc CurrencyLabel}"/>
+                    <ComboBox x:Name="CurrencyInput" Style="{StaticResource CurrencyComboBox}" TextSearch.TextPath="Code" Margin="0,4,0,12" AutomationProperties.Name="{ui:Loc CurrencyLabel}" ToolTip="{ui:Loc ChooseACurrencyOrEnterUpTo3Characters}">
+                      <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                          <TextBlock Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ComboBoxItem}}">
+                            <Run Text="{Binding Code}" FontWeight="SemiBold"/>
+                            <Run Text=" | "/>
+                            <Run Text="{Binding Name}"/>
+                          </TextBlock>
+                        </DataTemplate>
+                      </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBlock Text="{ui:Loc RatesApplyWhenTrackingRestarts}" Style="{StaticResource Caption}"/>
+                    <CheckBox x:Name="ApplyTodayCheck" Content="{ui:Loc ApplyDailyHoursAndCostToToday}"/>
+                  </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="{ui:Loc AppearanceAndWorkflow}" Style="{StaticResource SectionTitle}"/>
+                    <TextBlock Text="{ui:Loc LanguageHeading}" Margin="0,12,0,4"/>
+                    <ComboBox x:Name="LanguageChoice" DisplayMemberPath="Name" SelectedValuePath="Id" MinHeight="38" AutomationProperties.Name="{ui:Loc LanguageHeading}"/>
+                    <ComboBox x:Name="ThemeChoice" Margin="0,12" SelectedIndex="0" AutomationProperties.Name="{ui:Loc Theme}">
+                      <ComboBoxItem Content="{ui:Loc FollowWindows}" Tag="system"/>
+                      <ComboBoxItem Content="{ui:Loc Light}" Tag="light"/>
+                      <ComboBoxItem Content="{ui:Loc Dark}" Tag="dark"/>
+                    </ComboBox>
+                    <CheckBox x:Name="TopmostCheck" Content="{ui:Loc KeepWindowOnTop}"/>
+                    <CheckBox x:Name="TrayCheck" Content="{ui:Loc MinimizeToSystemTray}"/>
+                    <CheckBox x:Name="StartupCheck" Content="{ui:Loc StartWithWindows}"/>
+                    <CheckBox x:Name="ProgressCheck" Content="{ui:Loc ShowDailyProgress}"/>
+                    <CheckBox x:Name="TooltipsCheck" Content="{ui:Loc ShowTooltips}"/>
+                    <CheckBox x:Name="SoundsCheck" Content="{ui:Loc NotificationSounds}"/>
+                    <CheckBox x:Name="ConfirmCheck" Content="{ui:Loc ConfirmBeforeClosing}"/>
+                  </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="{ui:Loc StorageAndReports}" Style="{StaticResource SectionTitle}"/>
+                    <CheckBox x:Name="SaveLogCheck" Content="{ui:Loc SaveWorkHistory}"/>
+                    <CheckBox x:Name="AutoReportCheck" Content="{ui:Loc OpenTodaySReportOnCloseOrReset}"/>
+                    <TextBlock Text="{ui:Loc ExportFolder}" Margin="0,12,0,0"/>
+                    <TextBox x:Name="ExportFolderInput" AutomationProperties.Name="{ui:Loc ExportFolder}" ToolTip="{ui:Loc LeaveBlankForTheDefaultFolder}"/>
+                    <Button Content="{ui:Loc BrowseMore}" Tag="export-folder" ui:ButtonIcon.Glyph="" Click="ActionClick" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{ui:Loc WorkDataFolder}" Margin="0,12,0,0"/>
+                    <TextBox x:Name="DataFolderInput" AutomationProperties.Name="{ui:Loc WorkDataFolder}" ToolTip="{ui:Loc LeaveBlankForTheDefaultFolder}"/>
+                    <Button Content="{ui:Loc BrowseMore}" Tag="data-folder" ui:ButtonIcon.Glyph="" Click="ActionClick" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{ui:Loc CopiesHistoryToTheNewFolder}" Style="{StaticResource Caption}" Margin="0,10,0,0"/>
+                  </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}">
+                  <StackPanel>
+                    <TextBlock Text="{ui:Loc Diagnostics}" Style="{StaticResource SectionTitle}"/>
+                    <CheckBox x:Name="LoggingCheck" Content="{ui:Loc EnableLogging}"/>
+                    <CheckBox x:Name="ErrorsCheck" Content="{ui:Loc ShowErrorDetails}"/>
+                    <WrapPanel Margin="0,10,0,0">
+                      <Button Content="{ui:Loc ShowLog}" MinWidth="130" Width="Auto" Tag="show-log" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,8,0"/>
+                      <Button Content="{ui:Loc ClearLogMore}" MinWidth="130" Width="Auto" Tag="clear-log" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,0,8"/>
+                    </WrapPanel>
+                  </StackPanel>
+                </Border>
+              </StackPanel>
+            </ScrollViewer>
+            <Border Grid.Row="1" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0" Padding="0,12,0,0">
+              <Button Content="{ui:Loc SavePreferences}" Tag="save-settings" ui:ButtonIcon.Glyph="" Click="ActionClick" HorizontalAlignment="Left"/>
+            </Border>
+          </Grid>
+        </TabItem>
+        <TabItem Header="{ui:Loc About}">
+          <ScrollViewer Focusable="False" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,20,0,0">
+              <Border Style="{StaticResource Card}">
+                <StackPanel>
+                  <TextBlock x:Name="VersionText" FontSize="24" FontWeight="SemiBold"/>
+                  <TextBlock Text="© 2026 Voltura AB · MIT License" Style="{StaticResource Caption}" Margin="0,8,0,20"/>
+                  <TextBlock Text="{ui:Loc TrackTimeEarningsAndOvertimeStoredOnYourComputer}" Margin="0,8,0,0"/>
+                </StackPanel>
+              </Border>
+              <Border Style="{StaticResource Card}">
+                <StackPanel>
+                  <TextBlock Text="{ui:Loc Updates}" Style="{StaticResource SectionTitle}"/>
+                  <CheckBox x:Name="AutomaticUpdatesCheck" Content="{ui:Loc DownloadUpdatesAutomatically}" Checked="AutomaticUpdatesChanged" Unchecked="AutomaticUpdatesChanged" Margin="0,14,0,10"/>
+                  <TextBlock x:Name="UpdateStatusText" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+                  <Button x:Name="CheckUpdateButton" Content="{ui:Loc CheckForUpdates}" Tag="check-update" ui:ButtonIcon.Glyph="" Click="ActionClick" HorizontalAlignment="Left" Margin="0,16,0,0"/>
+                  <Button x:Name="InstallButton" Content="{ui:Loc InstallAndRestart}" Tag="install-update" ui:ButtonIcon.Glyph="" Click="ActionClick" HorizontalAlignment="Left" Margin="0,10,0,0" Visibility="Collapsed"/>
+                </StackPanel>
+              </Border>
+              <WrapPanel>
+                <Button Content="{ui:Loc Website}" MinWidth="180" Width="Auto" Tag="website" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,8,8"/>
+                <Button Content="{ui:Loc ReportABug}" MinWidth="160" Width="Auto" Tag="bug" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,8,8"/>
+                <Button Content="{ui:Loc License}" MinWidth="110" Width="Auto" Tag="license" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,8,8"/>
+                <Button Content="{ui:Loc SupportVoltura}" MinWidth="180" Width="Auto" Tag="support" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,8,8"/>
+                <Button Content="{ui:Loc BuyMeACoffee}" MinWidth="160" Width="Auto" Tag="coffee" ui:ButtonIcon.Glyph="" Click="ActionClick" Margin="0,0,0,8"/>
+              </WrapPanel>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+      </TabControl>
+    </DockPanel>
+  </Border>
+</Window>
