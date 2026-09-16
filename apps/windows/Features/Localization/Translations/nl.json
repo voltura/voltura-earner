@@ -1,4 +1,7 @@
 {
+  "MinimalViewSize": "Grootte van minimale weergave",
+  "Standard": "Standaard",
+  "Small": "Klein",
   "PressToStart": "Druk om te starten",
   "PressToPause": "Druk om te pauzeren",
   "Gross": "Bruto",

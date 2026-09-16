@@ -1,4 +1,7 @@
 {
+  "MinimalViewSize": "Größe der Minimalansicht",
+  "Standard": "Standard",
+  "Small": "Klein",
   "PressToStart": "Zum Starten drücken",
   "PressToPause": "Zum Pausieren drücken",
   "Gross": "Brutto",

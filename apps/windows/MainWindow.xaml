@@ -226,10 +226,16 @@
                     <TextBlock Text="{ui:Loc AppearanceAndWorkflow}" Style="{StaticResource SectionTitle}"/>
                     <TextBlock Text="{ui:Loc LanguageHeading}" Margin="0,12,0,4"/>
                     <ComboBox x:Name="LanguageChoice" DisplayMemberPath="Name" SelectedValuePath="Id" MinHeight="38" AutomationProperties.Name="{ui:Loc LanguageHeading}"/>
-                    <ComboBox x:Name="ThemeChoice" Margin="0,12" SelectedIndex="0" AutomationProperties.Name="{ui:Loc Theme}">
+                    <TextBlock Text="{ui:Loc Theme}" Margin="0,12,0,4"/>
+                    <ComboBox x:Name="ThemeChoice" SelectedIndex="0" AutomationProperties.Name="{ui:Loc Theme}">
                       <ComboBoxItem Content="{ui:Loc FollowWindows}" Tag="system"/>
                       <ComboBoxItem Content="{ui:Loc Light}" Tag="light"/>
                       <ComboBoxItem Content="{ui:Loc Dark}" Tag="dark"/>
+                    </ComboBox>
+                    <TextBlock Text="{ui:Loc MinimalViewSize}" Margin="0,12,0,4"/>
+                    <ComboBox x:Name="MinimalViewSizeChoice" SelectedIndex="0" AutomationProperties.Name="{ui:Loc MinimalViewSize}">
+                      <ComboBoxItem Content="{ui:Loc Standard}" Tag="standard"/>
+                      <ComboBoxItem Content="{ui:Loc Small}" Tag="small"/>
                     </ComboBox>
                     <CheckBox x:Name="TopmostCheck" Content="{ui:Loc KeepWindowOnTop}"/>
                     <CheckBox x:Name="TrayCheck" Content="{ui:Loc MinimizeToSystemTray}"/>

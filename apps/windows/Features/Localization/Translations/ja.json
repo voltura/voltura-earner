@@ -1,4 +1,7 @@
 {
+  "MinimalViewSize": "最小表示のサイズ",
+  "Standard": "標準",
+  "Small": "小",
   "PressToStart": "押して開始",
   "PressToPause": "押して一時停止",
   "Gross": "総収入",

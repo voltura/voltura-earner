@@ -1,4 +1,7 @@
 {
+  "MinimalViewSize": "Størrelse på minimal visning",
+  "Standard": "Standard",
+  "Small": "Liten",
   "PressToStart": "Trykk for å starte",
   "PressToPause": "Trykk for å sette på pause",
   "Gross": "Brutto",

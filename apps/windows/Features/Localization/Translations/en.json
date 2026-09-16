@@ -1,4 +1,7 @@
 {
+  "MinimalViewSize": "Minimal view size",
+  "Standard": "Standard",
+  "Small": "Small",
   "PressToStart": "Press to start",
   "PressToPause": "Press to pause",
   "Gross": "Gross",

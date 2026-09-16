@@ -116,7 +116,7 @@ internal sealed class AppRuntime : IAsyncDisposable
         _savedRevision = Session.Revision;
         _log.Enabled = settings.Logging;
         Window.Populate(settings);
-        LiveWindow.LiveView.Populate(settings);
+        LiveWindow.ApplySettings(settings);
         Window.Render(Session);
         LiveWindow.Render(Session);
 
@@ -913,7 +913,7 @@ internal sealed class AppRuntime : IAsyncDisposable
         _log.Enabled = settings.Logging;
         Strings.Current.SetLanguage(settings.Language);
         Window.ApplySettings(settings);
-        LiveWindow.LiveView.Populate(settings);
+        LiveWindow.ApplySettings(settings);
         ThemeManager.Apply(settings.Theme);
         UpdateTrayMenuTheme();
         _updates.Start(settings.AutomaticUpdates);

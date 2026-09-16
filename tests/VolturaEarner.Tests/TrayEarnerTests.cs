@@ -72,6 +72,54 @@ public sealed class TrayEarnerTests(WpfTestFixture fixture)
     }
 
     [Fact]
+    public void SmallMinimalPreferenceHalvesTheWindowAndRestoresStandardSizing()
+    {
+        fixture.Run(() =>
+        {
+            var popup = new TrayEarnerWindow { Opacity = 0, ShowActivated = false };
+            var settings = new AppSettings();
+            var session = new TrackingSession(settings, WorkData.Empty);
+
+            try
+            {
+                popup.ApplySettings(settings);
+                popup.Render(session);
+                popup.SetMinimalView(true);
+                popup.Open(new(0, 0, 1, 1));
+                popup.UpdateLayout();
+
+                var standardWidth = popup.Width;
+                var standardHeight = popup.Height;
+
+                popup.ApplySettings(settings with { MinimalViewSize = "small" });
+                popup.UpdateLayout();
+                Assert.InRange(popup.Width / standardWidth, 0.45, 0.55);
+                Assert.InRange(popup.Height / standardHeight, 0.45, 0.55);
+                Assert.True(popup.ShowCompact.IsVisible);
+
+                session.Start(settings.SelectedTask);
+                popup.Render(session);
+                popup.UpdateLayout();
+                Assert.InRange(Math.Abs(popup.Width / standardWidth - 0.5), 0, 0.05);
+
+                popup.SetMinimalView(false);
+                Assert.Equal(440, popup.Width);
+                popup.SetMinimalView(true);
+                Assert.InRange(popup.Width / standardWidth, 0.45, 0.55);
+
+                popup.ApplySettings(settings);
+                popup.UpdateLayout();
+                Assert.Equal(standardWidth, popup.Width);
+                Assert.Equal(standardHeight, popup.Height);
+            }
+            finally
+            {
+                popup.Exit();
+            }
+        });
+    }
+
+    [Fact]
     public void MinimalWidthFitsTrackingHeaderAndGrowsWithTheAmount()
     {
         fixture.Run(() =>

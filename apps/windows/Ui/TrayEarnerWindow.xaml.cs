@@ -4,6 +4,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using VolturaEarner.Platform;
+using VolturaEarner.Features.Settings;
 using VolturaEarner.Features.Tracking;
 
 namespace VolturaEarner.Ui;
@@ -12,6 +13,7 @@ public partial class TrayEarnerWindow : Window
 {
     private bool _exit;
     private bool _minimal;
+    private bool _smallMinimal;
     private long _dismissedAt;
     internal bool IsPinned => LivePin.IsChecked == true;
     internal event Action? OpenMainRequested;
@@ -122,6 +124,16 @@ public partial class TrayEarnerWindow : Window
     private void TrackingClick(object sender, RoutedEventArgs e) => LiveView.ToggleTracking();
     private void ShowMinimalClick(object sender, RoutedEventArgs e) => SetMinimalView(true);
     private void ShowCompactClick(object sender, RoutedEventArgs e) => SetMinimalView(false);
+    internal void ApplySettings(AppSettings settings)
+    {
+        LiveView.Populate(settings);
+        _smallMinimal = settings.MinimalViewSize == "small";
+
+        if (_minimal)
+        {
+            ResizeToContent();
+        }
+    }
     internal void SetMinimalView(bool minimal)
     {
         TooltipLifetime.Dismiss();
@@ -137,6 +149,12 @@ public partial class TrayEarnerWindow : Window
     }
     private void ResizeToContent()
     {
+        WindowBorder.LayoutTransform = new ScaleTransform(_minimal && _smallMinimal
+            ? 0.5
+            : 1, _minimal && _smallMinimal
+                ? 0.5
+                : 1);
+
         var statusSpace = 0d;
 
         if (_minimal)

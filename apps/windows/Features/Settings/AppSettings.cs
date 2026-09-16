@@ -6,6 +6,7 @@ public enum OvertimePolicy { SameRate, CustomRate, NotAllowed }
 public sealed record AppSettings
 {
     public string Language { get; init; } = "system";
+    public string MinimalViewSize { get; init; } = "standard";
     public decimal HourlyRate { get; init; } = 1000m;
     public decimal DailyCost { get; init; }
     public decimal DailyHours { get; init; } = 8m;

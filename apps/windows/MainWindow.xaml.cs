@@ -53,6 +53,9 @@ public partial class MainWindow : Window
             LanguageChoice.ItemsSource = new[] { new LanguageOption("system", Strings.Current["FollowWindows"]) }
                 .Concat(LanguageCatalog.All.Select(language => new LanguageOption(language.Id, language.NativeName)));
             LanguageChoice.SelectedValue = settings.Language;
+            MinimalViewSizeChoice.SelectedIndex = settings.MinimalViewSize == "small"
+                ? 1
+                : 0;
 
             CurrencyInput.ItemsSource = CurrencyChoice.All.Select(currency => currency with { Name = Strings.Current[CurrencyChoice.NameKeys[currency.Code]] }).ToArray();
             RateInput.Text = settings.HourlyRate.ToString(CultureInfo.CurrentCulture);
@@ -115,6 +118,7 @@ public partial class MainWindow : Window
         var settings = previous with
         {
             Language = (string)LanguageChoice.SelectedValue,
+            MinimalViewSize = (string)((ComboBoxItem)MinimalViewSizeChoice.SelectedItem).Tag,
             HourlyRate = rate,
             DailyCost = cost,
             DailyHours = hours,

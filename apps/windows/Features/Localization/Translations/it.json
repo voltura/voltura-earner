@@ -1,4 +1,7 @@
 {
+  "MinimalViewSize": "Dimensione della vista minima",
+  "Standard": "Standard",
+  "Small": "Piccola",
   "PressToStart": "Premi per avviare",
   "PressToPause": "Premi per mettere in pausa",
   "Gross": "Lordo",

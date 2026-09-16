@@ -1,4 +1,7 @@
 {
+  "MinimalViewSize": "Pienoisnäkymän koko",
+  "Standard": "Normaali",
+  "Small": "Pieni",
   "PressToStart": "Aloita painamalla",
   "PressToPause": "Keskeytä painamalla",
   "Gross": "Brutto",

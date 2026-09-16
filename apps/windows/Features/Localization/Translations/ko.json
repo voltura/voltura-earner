@@ -1,4 +1,7 @@
 {
+  "MinimalViewSize": "최소 보기 크기",
+  "Standard": "표준",
+  "Small": "작게",
   "PressToStart": "눌러서 시작",
   "PressToPause": "눌러서 일시 정지",
   "Gross": "총수입",

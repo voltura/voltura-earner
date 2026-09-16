@@ -287,10 +287,12 @@ public sealed class RuntimeTests(WpfTestFixture fixture) : IDisposable
 
             try
             {
-                window.Populate(new() { PlaySounds = true, HourlyRate = 123.45m, Theme = "dark", SaveWorkLog = false });
+                window.Populate(new() { PlaySounds = true, HourlyRate = 123.45m, Theme = "dark", MinimalViewSize = "small", SaveWorkLog = false });
                 Assert.True(window.SoundsCheck.IsChecked);
                 Assert.False(window.SaveLogCheck.IsChecked);
                 Assert.Equal(2, window.ThemeChoice.SelectedIndex);
+                Assert.Equal(1, window.MinimalViewSizeChoice.SelectedIndex);
+                Assert.Equal("small", window.ReadSettings(new()).MinimalViewSize);
                 window.UpdateState(new(UpdateStatus.Ready, "installer.exe"), true);
                 Assert.Equal(Visibility.Visible, window.InstallButton.Visibility);
                 Assert.True(window.CheckUpdateButton.IsEnabled);

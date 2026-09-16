@@ -1,4 +1,7 @@
 {
+  "MinimalViewSize": "极简视图大小",
+  "Standard": "标准",
+  "Small": "小",
   "PressToStart": "点击开始",
   "PressToPause": "点击暂停",
   "Gross": "总收入",

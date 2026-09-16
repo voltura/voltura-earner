@@ -1,4 +1,7 @@
 {
+  "MinimalViewSize": "Storlek på minimal vy",
+  "Standard": "Standard",
+  "Small": "Liten",
   "PressToStart": "Tryck för att starta",
   "PressToPause": "Tryck för att pausa",
   "Gross": "Brutto",

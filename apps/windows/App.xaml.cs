@@ -212,6 +212,9 @@ public partial class App : System.Windows.Application
                 await RenderElementAsync(tooltip, tooltip.DesiredSize, output, $"{theme}-tray-minimal-{name}-tooltip");
             }
 
+            popup.ApplySettings(_runtime.Session.Settings with { MinimalViewSize = "small" });
+            await RenderElementAsync(popup.WindowBorder, popup.PreferredSize(), output, $"{theme}-tray-minimal-small");
+            popup.ApplySettings(_runtime.Session.Settings);
             popup.SetMinimalView(false);
         }
     }

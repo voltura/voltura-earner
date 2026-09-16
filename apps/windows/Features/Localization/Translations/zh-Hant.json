@@ -1,4 +1,7 @@
 {
+  "MinimalViewSize": "極簡檢視大小",
+  "Standard": "標準",
+  "Small": "小",
   "PressToStart": "點擊開始",
   "PressToPause": "點擊暫停",
   "Gross": "總收入",
