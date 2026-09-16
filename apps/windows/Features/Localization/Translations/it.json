@@ -1,4 +1,10 @@
 {
+  "PressToStart": "Premi per avviare",
+  "PressToPause": "Premi per mettere in pausa",
+  "Gross": "Lordo",
+  "TimeWorked": "Tempo lavorato",
+  "ShowMinimalView": "Mostra vista minima",
+  "ShowCompactView": "Mostra vista compatta",
   "About": "Informazioni",
   "AlwaysOnTop": "Sempre in primo piano",
   "BuyMeACoffee": "Offrimi un caffè",

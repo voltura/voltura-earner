@@ -21,13 +21,21 @@
         <Grid.ColumnDefinitions>
           <ColumnDefinition/>
           <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <StackPanel>
+        <StackPanel VerticalAlignment="Center">
           <TextBlock Text="Voltura Earner" FontSize="23" FontWeight="SemiBold"/>
         </StackPanel>
-        <Border Grid.Column="1" Background="{DynamicResource SurfaceBrush}" CornerRadius="12" Padding="12,7" VerticalAlignment="Center">
+        <Button x:Name="TrackingToggle" Grid.Column="1" Style="{StaticResource TrackingStatusPill}" Padding="12,7" Tag="toggle" Click="ActionClick">
           <TextBlock x:Name="TrackingState" Text="{ui:Loc LoadingMore}" FontWeight="SemiBold"/>
-        </Border>
+        </Button>
+        <ToggleButton x:Name="HeaderPinToggle" Grid.Column="2" Style="{StaticResource HeaderPinToggle}" Margin="8,0" IsChecked="{Binding Topmost, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" Click="AlwaysOnTopClick" ToolTip="{ui:Loc AlwaysOnTop}" AutomationProperties.Name="{ui:Loc AlwaysOnTop}" AutomationProperties.HelpText="{ui:Loc AlwaysOnTop}">
+          <TextBlock Text="" Style="{StaticResource ButtonGlyph}" FontSize="16" RenderTransform="{x:Null}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}"/>
+        </ToggleButton>
+        <Button x:Name="ShowCompact" Grid.Column="3" MinWidth="40" Width="40" Height="40" Padding="0" ToolTip="{ui:Loc ShowCompactView}" AutomationProperties.Name="{ui:Loc ShowCompactView}" Tag="show-compact" Click="ActionClick">
+          <TextBlock Style="{StaticResource SmallerViewGlyph}"/>
+        </Button>
       </Grid>
       <Border DockPanel.Dock="Bottom" Background="{DynamicResource SurfaceBrush}" CornerRadius="8" Padding="12" Margin="0,16,0,0">
         <DockPanel>
@@ -80,20 +88,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
               </Grid.RowDefinitions>
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*"/>
-                  <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <WrapPanel IsItemsHost="True" KeyboardNavigation.TabIndex="1"/>
-                <ToggleButton x:Name="HeaderPinToggle" Grid.Column="1" Style="{StaticResource HeaderPinToggle}" Margin="12,0,0,0" VerticalAlignment="Top" IsChecked="{Binding Topmost, RelativeSource={RelativeSource AncestorType=Window}, Mode=TwoWay}" Click="AlwaysOnTopClick" ToolTip="{ui:Loc AlwaysOnTop}" AutomationProperties.Name="{ui:Loc AlwaysOnTop}" AutomationProperties.HelpText="{ui:Loc AlwaysOnTop}" KeyboardNavigation.TabIndex="2">
-                  <TextBlock Text="" Style="{StaticResource ButtonGlyph}" FontSize="16" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}">
-                    <TextBlock.RenderTransform>
-                      <TranslateTransform Y="-1"/>
-                    </TextBlock.RenderTransform>
-                  </TextBlock>
-                </ToggleButton>
-              </Grid>
+              <WrapPanel IsItemsHost="True" KeyboardNavigation.TabIndex="1"/>
               <ContentPresenter x:Name="PART_SelectedContentHost" Grid.Row="1" ContentSource="SelectedContent"/>
             </Grid>
           </ControlTemplate>

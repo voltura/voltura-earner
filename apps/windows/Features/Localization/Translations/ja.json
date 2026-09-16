@@ -1,4 +1,10 @@
 {
+  "PressToStart": "押して開始",
+  "PressToPause": "押して一時停止",
+  "Gross": "総収入",
+  "TimeWorked": "労働時間",
+  "ShowMinimalView": "最小表示に切り替え",
+  "ShowCompactView": "コンパクト表示に切り替え",
   "About": "このアプリについて",
   "AlwaysOnTop": "常に手前に表示",
   "BuyMeACoffee": "コーヒーをおごる",

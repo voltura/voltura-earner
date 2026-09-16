@@ -1,4 +1,10 @@
 {
+  "PressToStart": "눌러서 시작",
+  "PressToPause": "눌러서 일시 정지",
+  "Gross": "총수입",
+  "TimeWorked": "근무 시간",
+  "ShowMinimalView": "최소 보기 표시",
+  "ShowCompactView": "간단 보기 표시",
   "About": "정보",
   "AlwaysOnTop": "항상 위",
   "BuyMeACoffee": "커피 한 잔 후원",

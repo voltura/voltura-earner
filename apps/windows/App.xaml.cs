@@ -201,6 +201,18 @@ public partial class App : System.Windows.Application
             popup.WindowBorder.Background = (Brush)FindResource("WindowBrush");
             popup.WindowBorder.CornerRadius = new(8);
             await RenderElementAsync(popup.WindowBorder, popup.PreferredSize(), output, $"{theme}-tray");
+            popup.SetMinimalView(true);
+            await RenderElementAsync(popup.WindowBorder, popup.PreferredSize(), output, $"{theme}-tray-minimal");
+
+            foreach (var (name, content) in new[] { ("earnings", popup.LiveView.NetEarnings.ToolTip), ("time", popup.LiveView.DayProgress.ToolTip) })
+            {
+                var tooltip = new System.Windows.Controls.ToolTip { Content = content };
+
+                tooltip.Measure(new(340, double.PositiveInfinity));
+                await RenderElementAsync(tooltip, tooltip.DesiredSize, output, $"{theme}-tray-minimal-{name}-tooltip");
+            }
+
+            popup.SetMinimalView(false);
         }
     }
     private static async Task RenderDropDownAsync(System.Windows.Controls.ComboBox choice, string output, string name)

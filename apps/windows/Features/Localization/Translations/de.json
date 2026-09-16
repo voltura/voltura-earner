@@ -1,4 +1,10 @@
 {
+  "PressToStart": "Zum Starten drücken",
+  "PressToPause": "Zum Pausieren drücken",
+  "Gross": "Brutto",
+  "TimeWorked": "Arbeitszeit",
+  "ShowMinimalView": "Minimale Ansicht anzeigen",
+  "ShowCompactView": "Kompakte Ansicht anzeigen",
   "About": "Über",
   "AlwaysOnTop": "Immer im Vordergrund",
   "BuyMeACoffee": "Einen Kaffee spendieren",

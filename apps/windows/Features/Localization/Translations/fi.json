@@ -1,4 +1,10 @@
 {
+  "PressToStart": "Aloita painamalla",
+  "PressToPause": "Keskeytä painamalla",
+  "Gross": "Brutto",
+  "TimeWorked": "Työaika",
+  "ShowMinimalView": "Näytä pienoisnäkymä",
+  "ShowCompactView": "Näytä tiivis näkymä",
   "About": "Tietoja",
   "AlwaysOnTop": "Aina päällimmäisenä",
   "BuyMeACoffee": "Tarjoa kahvi",

@@ -1,4 +1,10 @@
 {
+  "PressToStart": "撳一下開始",
+  "PressToPause": "撳一下暫停",
+  "Gross": "總收入",
+  "TimeWorked": "工作時間",
+  "ShowMinimalView": "顯示極簡檢視",
+  "ShowCompactView": "顯示精簡檢視",
   "About": "關於",
   "AlwaysOnTop": "永遠置頂",
   "BuyMeACoffee": "請我飲杯咖啡",

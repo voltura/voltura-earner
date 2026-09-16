@@ -75,7 +75,7 @@ internal sealed class AppRuntime : IAsyncDisposable
         Window.StateChanged += StateChanged;
         Window.Closing += Closing;
         LiveWindow.IsVisibleChanged += VisibilityChanged;
-        LiveWindow.OpenMainRequested += Open;
+        LiveWindow.OpenMainRequested += ExpandLiveWindow;
         LiveWindow.LiveView.ActionRequested += LiveActionRequested;
         _updates.Changed += UpdateChanged;
 
@@ -241,6 +241,22 @@ internal sealed class AppRuntime : IAsyncDisposable
         WindowWorkAreaPlacement.EnsureVisibleOnCurrentMonitor(Window);
         Window.Activate();
         Refresh();
+    }
+
+    private void ExpandLiveWindow()
+    {
+        LiveWindow.Hide();
+        Open();
+    }
+
+    private void ShowCompactWindow()
+    {
+        var anchor = Window.PointToScreen(new(Window.ActualWidth, Window.ActualHeight));
+
+        LiveWindow.SetMinimalView(false);
+        LiveWindow.Render(Session);
+        Window.Hide();
+        LiveWindow.Open(new((int)anchor.X, (int)anchor.Y, 1, 1));
     }
 
     private void LiveActionRequested(string action)
@@ -525,6 +541,13 @@ internal sealed class AppRuntime : IAsyncDisposable
 
         if (!Initialized || _closing || _sessionEnding)
         {
+            return;
+        }
+
+        if (action == "show-compact")
+        {
+            ShowCompactWindow();
+
             return;
         }
 
@@ -1166,9 +1189,12 @@ internal sealed class AppRuntime : IAsyncDisposable
             return;
         }
 
-        if (Initialized && Session.Settings.ConfirmExit && !Confirm(Session.Settings.SaveWorkLog
+        var mainWasVisible = Window.IsVisible;
+        var liveWasVisible = LiveWindow.IsVisible;
+
+        if (Initialized && Session.Settings.ConfirmExit && (_paths.Isolated || !ConfirmationWindow.ConfirmExit(Window, LiveWindow, Session.Settings.SaveWorkLog
             ? Strings.Current["CloseEarner"]
-            : Strings.Current["CloseEarnerUnsavedWorkWillBeLost"], Strings.Current["Close"], "\uE8BB"))
+            : Strings.Current["CloseEarnerUnsavedWorkWillBeLost"], Strings.Current["Close"], "\uE8BB")))
         {
             return;
         }
@@ -1177,9 +1203,22 @@ internal sealed class AppRuntime : IAsyncDisposable
         {
             await CloseAsync(true);
         }
-        catch (OperationCanceledException) { }
+        catch (OperationCanceledException)
+        {
+            if (mainWasVisible)
+            {
+                Window.Show();
+            }
+
+            if (liveWasVisible)
+            {
+                LiveWindow.Show();
+            }
+        }
         catch (Exception error) when (IsExpected(error))
         {
+            LiveWindow.Hide();
+            Open();
             ReportError(Strings.Current["CouldNotSaveAndCloseTryAgain"], error);
         }
     }
@@ -1307,7 +1346,7 @@ internal sealed class AppRuntime : IAsyncDisposable
         Window.StateChanged -= StateChanged;
         Window.Closing -= Closing;
         LiveWindow.IsVisibleChanged -= VisibilityChanged;
-        LiveWindow.OpenMainRequested -= Open;
+        LiveWindow.OpenMainRequested -= ExpandLiveWindow;
         LiveWindow.LiveView.ActionRequested -= LiveActionRequested;
         LiveWindow.Exit();
         _updates.Changed -= UpdateChanged;

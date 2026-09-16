@@ -1,4 +1,10 @@
 {
+  "PressToStart": "Tryck för att starta",
+  "PressToPause": "Tryck för att pausa",
+  "Gross": "Brutto",
+  "TimeWorked": "Arbetad tid",
+  "ShowMinimalView": "Visa minimal vy",
+  "ShowCompactView": "Visa kompakt vy",
   "About": "Om",
   "AlwaysOnTop": "Alltid överst",
   "BuyMeACoffee": "Bjud på en kaffe",

@@ -159,6 +159,9 @@ public partial class MainWindow : Window
         TrackingState.Text = session.Running
             ? "● " + Strings.Current["Tracking"]
             : Strings.Current["Paused"];
+        TrackingToggle.ToolTip = session.Running
+            ? Strings.Current["PressToPause"]
+            : Strings.Current["PressToStart"];
     }
     internal void UpdateState(UpdateState state, bool eligible)
     {

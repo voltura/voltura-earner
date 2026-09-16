@@ -1,4 +1,10 @@
 {
+  "PressToStart": "Ýttu til að hefja",
+  "PressToPause": "Ýttu til að gera hlé",
+  "Gross": "Brúttó",
+  "TimeWorked": "Unninn tími",
+  "ShowMinimalView": "Sýna lágmarkssýn",
+  "ShowCompactView": "Sýna þjappaða sýn",
   "About": "Um forritið",
   "AlwaysOnTop": "Alltaf efst",
   "BuyMeACoffee": "Bjóða mér í kaffi",

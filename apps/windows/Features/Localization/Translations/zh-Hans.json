@@ -1,4 +1,10 @@
 {
+  "PressToStart": "点击开始",
+  "PressToPause": "点击暂停",
+  "Gross": "总收入",
+  "TimeWorked": "工作时间",
+  "ShowMinimalView": "显示极简视图",
+  "ShowCompactView": "显示紧凑视图",
   "About": "关于",
   "AlwaysOnTop": "始终置顶",
   "BuyMeACoffee": "请我喝杯咖啡",

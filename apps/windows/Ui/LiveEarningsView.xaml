@@ -18,13 +18,13 @@
     </Style>
   </UserControl.Resources>
   <StackPanel>
-    <Border Style="{StaticResource Card}">
+    <Border x:Name="EarningsCard" Style="{StaticResource Card}">
       <StackPanel>
-        <TextBlock Text="{ui:Loc NETEARNINGS}" Style="{StaticResource Caption}"/>
-        <TextBlock x:Name="NetEarnings" Text="0.00 USD" FontSize="36" FontWeight="SemiBold" Margin="0,8,0,4"/>
+        <TextBlock x:Name="NetEarningsHeading" Text="{ui:Loc NETEARNINGS}" Style="{StaticResource Caption}"/>
+        <TextBlock x:Name="NetEarnings" Text="0.00 USD" FontSize="36" FontWeight="SemiBold" Margin="0,8,0,4" ToolTipService.IsEnabled="{DynamicResource TooltipsEnabled}"/>
         <TextBlock x:Name="GrossEarnings" Style="{StaticResource Caption}"/>
-        <Separator Height="1" Margin="0,12"/>
-        <Grid>
+        <Separator x:Name="EarningsSeparator" Height="1" Margin="0,12"/>
+        <Grid x:Name="TimeDetails">
           <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -39,11 +39,11 @@
             <TextBlock x:Name="OvertimePay" Style="{StaticResource Caption}" Margin="0,3,0,0"/>
           </StackPanel>
         </Grid>
-        <ProgressBar x:Name="DayProgress" Minimum="0" Maximum="100" Height="8" Margin="0,12,0,8"/>
+        <ProgressBar x:Name="DayProgress" Minimum="0" Maximum="100" Height="8" Margin="0,12,0,8" ToolTipService.IsEnabled="{DynamicResource TooltipsEnabled}"/>
         <TextBlock x:Name="TargetText" Style="{StaticResource Caption}"/>
       </StackPanel>
     </Border>
-    <Border Style="{StaticResource Card}">
+    <Border x:Name="TaskCard" Style="{StaticResource Card}">
       <StackPanel>
         <TextBlock Text="{ui:Loc Task}" FontWeight="SemiBold"/>
         <ComboBox x:Name="TaskChoice" Margin="0,10,0,14" MinHeight="38" AutomationProperties.Name="{ui:Loc ActiveTask}" SelectionChanged="TaskChanged"/>

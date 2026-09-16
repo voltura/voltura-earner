@@ -1,4 +1,10 @@
 {
+  "PressToStart": "Press to start",
+  "PressToPause": "Press to pause",
+  "Gross": "Gross",
+  "TimeWorked": "Time worked",
+  "ShowMinimalView": "Show minimal view",
+  "ShowCompactView": "Show compact view",
   "About": "About",
   "AboutAndUpdates": "About and updates",
   "ActiveTask": "Active task",

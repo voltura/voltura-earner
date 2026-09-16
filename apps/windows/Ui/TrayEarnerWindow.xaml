@@ -7,15 +7,20 @@
           <ColumnDefinition Width="Auto"/>
           <ColumnDefinition Width="Auto"/>
           <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <TextBlock Text="Voltura Earner" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" TextWrapping="NoWrap"/>
-        <Border Grid.Column="1" Background="{DynamicResource SurfaceBrush}" CornerRadius="12" Padding="8,6" VerticalAlignment="Center" Margin="6,0,0,0">
+        <Button x:Name="TrackingToggle" Grid.Column="1" Style="{StaticResource TrackingStatusPill}" Padding="8,6" Margin="6,0,0,0" Click="TrackingClick">
           <TextBlock x:Name="TrackingState" Text="{ui:Loc Paused}" FontSize="12" FontWeight="SemiBold" TextWrapping="NoWrap"/>
-        </Border>
+        </Button>
         <ToggleButton x:Name="LivePin" Grid.Column="2" Style="{StaticResource HeaderPinToggle}" ToolTip="{ui:Loc KeepOpenAndOnTop}" AutomationProperties.Name="{ui:Loc KeepOpenAndOnTop}" Margin="8,0">
-          <TextBlock Text="" Style="{StaticResource ButtonGlyph}" FontSize="16" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}"/>
+          <TextBlock Text="" Style="{StaticResource ButtonGlyph}" FontSize="16" RenderTransform="{x:Null}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ToggleButton}}"/>
         </ToggleButton>
-        <Button Grid.Column="3" Content="" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" MinWidth="40" Width="40" Height="40" Padding="0" ToolTip="{ui:Loc OpenMainWindow}" AutomationProperties.Name="{ui:Loc OpenMainWindow}" Click="OpenMainClick"/>
+        <Button x:Name="ShowMinimal" Grid.Column="3" MinWidth="40" Width="40" Height="40" Padding="0" Margin="0,0,8,0" ToolTip="{ui:Loc ShowMinimalView}" AutomationProperties.Name="{ui:Loc ShowMinimalView}" Click="ShowMinimalClick">
+          <TextBlock Style="{StaticResource SmallerViewGlyph}"/>
+        </Button>
+        <Button x:Name="ShowFull" Grid.Column="4" Content="" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" MinWidth="40" Width="40" Height="40" Padding="0" ToolTip="{ui:Loc OpenMainWindow}" AutomationProperties.Name="{ui:Loc OpenMainWindow}" Click="OpenMainClick"/>
+        <Button x:Name="ShowCompact" Grid.Column="4" Content="" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" MinWidth="40" Width="40" Height="40" Padding="0" Visibility="Collapsed" ToolTip="{ui:Loc ShowCompactView}" AutomationProperties.Name="{ui:Loc ShowCompactView}" Click="ShowCompactClick"/>
       </Grid>
       <ScrollViewer Focusable="False" x:Name="LiveScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <ui:LiveEarningsView x:Name="LiveView"/>

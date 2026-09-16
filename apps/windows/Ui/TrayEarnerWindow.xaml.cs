@@ -11,14 +11,23 @@ namespace VolturaEarner.Ui;
 public partial class TrayEarnerWindow : Window
 {
     private bool _exit;
+    private bool _minimal;
     private long _dismissedAt;
     internal bool IsPinned => LivePin.IsChecked == true;
     internal event Action? OpenMainRequested;
     internal Size PreferredSize()
     {
-        WindowBorder.Measure(new(440, double.PositiveInfinity));
+        WindowBorder.Measure(new(_minimal
+            ? double.PositiveInfinity
+            : 440, double.PositiveInfinity));
 
-        return new(440, Math.Ceiling(WindowBorder.DesiredSize.Height));
+        var width = _minimal
+            ? Math.Ceiling(WindowBorder.DesiredSize.Width)
+            : 440;
+
+        WindowBorder.Measure(new(width, double.PositiveInfinity));
+
+        return new(width, Math.Ceiling(WindowBorder.DesiredSize.Height));
     }
     public TrayEarnerWindow()
     {
@@ -73,6 +82,14 @@ public partial class TrayEarnerWindow : Window
         TrackingState.Text = session.Running
             ? "● " + Strings.Current["Tracking"]
             : Strings.Current["Paused"];
+        TrackingToggle.ToolTip = session.Running
+            ? Strings.Current["PressToPause"]
+            : Strings.Current["PressToStart"];
+
+        if (_minimal && IsVisible)
+        {
+            ResizeToContent();
+        }
     }
     internal bool CanDragFrom(Point position)
     {
@@ -102,6 +119,67 @@ public partial class TrayEarnerWindow : Window
         }
     }
     private void OpenMainClick(object sender, RoutedEventArgs e) => OpenMainRequested?.Invoke();
+    private void TrackingClick(object sender, RoutedEventArgs e) => LiveView.ToggleTracking();
+    private void ShowMinimalClick(object sender, RoutedEventArgs e) => SetMinimalView(true);
+    private void ShowCompactClick(object sender, RoutedEventArgs e) => SetMinimalView(false);
+    internal void SetMinimalView(bool minimal)
+    {
+        TooltipLifetime.Dismiss();
+        _minimal = minimal;
+        LiveView.SetMinimalView(minimal);
+        ShowMinimal.Visibility = ShowFull.Visibility = minimal
+            ? Visibility.Collapsed
+            : Visibility.Visible;
+        ShowCompact.Visibility = minimal
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        ResizeToContent();
+    }
+    private void ResizeToContent()
+    {
+        var statusSpace = 0d;
+
+        if (_minimal)
+        {
+            var currentStatus = TrackingState.Text;
+            var pausedStatus = Strings.Current["Paused"];
+            var trackingStatus = "● " + Strings.Current["Tracking"];
+            var pausedWidth = MeasureStatus(pausedStatus);
+            var trackingWidth = MeasureStatus(trackingStatus);
+            var currentWidth = currentStatus == pausedStatus
+                ? pausedWidth
+                : currentStatus == trackingStatus
+                    ? trackingWidth
+                    : MeasureStatus(currentStatus);
+
+            TrackingState.Text = currentStatus;
+            statusSpace = Math.Max(0, Math.Max(pausedWidth, trackingWidth) - currentWidth);
+        }
+
+        TrackingToggle.Margin = new(6, 0, statusSpace, 0);
+        WindowBorder.UpdateLayout();
+
+        var size = PreferredSize();
+
+        WindowWorkAreaPlacement.SetPreferredSize(this, size);
+
+        if (IsVisible)
+        {
+            Left += Width - size.Width;
+            Top += Height - size.Height;
+        }
+
+        Width = size.Width;
+        Height = size.Height;
+        WindowWorkAreaPlacement.EnsureVisibleOnCurrentMonitor(this);
+    }
+    private double MeasureStatus(string value)
+    {
+        TrackingState.Text = value;
+        TrackingState.Measure(new(double.PositiveInfinity, double.PositiveInfinity));
+
+        return TrackingState.DesiredSize.Width;
+    }
     private void OnKeyDown(object sender, KeyEventArgs args)
     {
         if (args.Key == Key.Escape)

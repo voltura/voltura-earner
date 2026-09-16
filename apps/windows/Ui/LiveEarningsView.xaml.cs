@@ -10,6 +10,9 @@ public partial class LiveEarningsView : UserControl
 {
     private static readonly string[] MenuBrushes = ["SurfaceBrush", "TextBrush", "BorderBrush", "AccentBrush", "AccentTextBrush"];
     private bool _populating;
+    private bool _minimal;
+    private string? _earningsTooltip;
+    private string? _timeTooltip;
     internal event Action<string>? ActionRequested;
     public LiveEarningsView()
     {
@@ -23,6 +26,47 @@ public partial class LiveEarningsView : UserControl
         };
     }
     internal bool IsStartMenuOpen => StartMenu.IsOpen;
+    internal void ToggleTracking() => ActionRequested?.Invoke("toggle");
+    internal void SetMinimalView(bool minimal)
+    {
+        _minimal = minimal;
+
+        var details = minimal
+            ? Visibility.Collapsed
+            : Visibility.Visible;
+
+        NetEarningsHeading.Visibility = details;
+        GrossEarnings.Visibility = details;
+        EarningsSeparator.Visibility = details;
+        TimeDetails.Visibility = details;
+        TargetText.Visibility = details;
+        TaskCard.Visibility = details;
+        EarningsCard.Margin = minimal
+            ? new(0)
+            : new(0, 0, 0, 12);
+        NetEarnings.Margin = minimal
+            ? new(0)
+            : new(0, 8, 0, 4);
+        DayProgress.Margin = minimal
+            ? new(0, 12, 0, 0)
+            : new(0, 12, 0, 8);
+        UpdateSummaryTooltips();
+
+        if (minimal)
+        {
+            TaskChoice.IsDropDownOpen = false;
+            StartMenu.IsOpen = false;
+        }
+    }
+    private void UpdateSummaryTooltips()
+    {
+        NetEarnings.ToolTip = _minimal
+            ? _earningsTooltip
+            : null;
+        DayProgress.ToolTip = _minimal
+            ? _timeTooltip
+            : null;
+    }
     private void StartOptionsClick(object sender, RoutedEventArgs e)
     {
         TooltipLifetime.Dismiss();
@@ -107,11 +151,28 @@ public partial class LiveEarningsView : UserControl
             : "\uE768");
 
         var summary = session.Summary();
+        var costs = summary.Gross.Keys.Concat(summary.Net.Keys).Distinct(StringComparer.Ordinal).ToDictionary(c => c, c => summary.Gross.GetValueOrDefault(c) - summary.Net.GetValueOrDefault(c));
+        var gross = Money(summary.Gross, session.Settings.Currency);
 
         NetEarnings.Text = Money(summary.Net, session.Settings.Currency);
-        GrossEarnings.Text = Strings.Current.Format("GrossAndCost", Money(summary.Gross, session.Settings.Currency), Money(summary.Gross.Keys.Concat(summary.Net.Keys).Distinct(StringComparer.Ordinal).ToDictionary(c => c, c => summary.Gross.GetValueOrDefault(c) - summary.Net.GetValueOrDefault(c)), session.Settings.Currency));
+        GrossEarnings.Text = Strings.Current.Format("GrossAndCost", gross, Money(costs, session.Settings.Currency));
         WorkedTime.Text = ReportService.Duration(summary.RegularTicks + summary.OvertimeTicks);
         Overtime.Text = ReportService.Duration(summary.OvertimeTicks);
+        _earningsTooltip = $"{Strings.Current["Gross"]}: {gross}";
+
+        if (costs.Values.Any(cost => cost != 0))
+        {
+            _earningsTooltip += $"\n{Strings.Current["DailyCost"]}: {Money(costs.Where(pair => pair.Value != 0).ToDictionary(), session.Settings.Currency)}";
+        }
+
+        _timeTooltip = $"{Strings.Current["TimeWorked"]}: {WorkedTime.Text}";
+
+        if (summary.OvertimeTicks > 0)
+        {
+            _timeTooltip += $"\n{Strings.Current["Overtime"]}: {Overtime.Text}";
+        }
+
+        UpdateSummaryTooltips();
         OvertimePay.Text = Strings.Current.Format("OvertimeEarned", Money(summary.OvertimeEarnings, session.Settings.Currency));
         DayProgress.Value = Math.Min(100, (double)((summary.RegularTicks + summary.OvertimeTicks) / (summary.TargetHours * TimeSpan.TicksPerHour) * 100));
         TargetText.Text = Strings.Current.Format("RegularDay", summary.TargetHours.ToString("0.##", CultureInfo.CurrentCulture), $"{session.Settings.HourlyRate:N2} {session.Settings.Currency}", session.Settings.Overtime == OvertimePolicy.NotAllowed

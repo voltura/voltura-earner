@@ -69,8 +69,56 @@ internal sealed class ConfirmationWindow : Window
 
     internal static bool Confirm(Window owner, string message, string action, string glyph)
     {
-        var dialog = new ConfirmationWindow(message, action, glyph) { Owner = owner, Topmost = owner.Topmost };
+        // The tray views are topmost independently of the main window's pin.
+        var dialog = new ConfirmationWindow(message, action, glyph) { Owner = owner, Topmost = true };
 
         return dialog.ShowDialog() == true;
+    }
+
+    internal static bool ConfirmExit(Window main, Window live, string message, string action, string glyph)
+    {
+        var mainWasVisible = main.IsVisible;
+        var liveWasVisible = live.IsVisible;
+        var active = main.IsActive
+            ? main
+            : live.IsActive
+                ? live
+                : null;
+        var confirmed = false;
+
+        try
+        {
+            main.Hide();
+            live.Hide();
+
+            // The main window may never have been shown, so this dialog has no owner.
+
+            var dialog = new ConfirmationWindow(message, action, glyph)
+            {
+                Topmost = true,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            };
+
+            confirmed = dialog.ShowDialog() == true;
+
+            return confirmed;
+        }
+        finally
+        {
+            if (!confirmed)
+            {
+                if (mainWasVisible)
+                {
+                    main.Show();
+                }
+
+                if (liveWasVisible)
+                {
+                    live.Show();
+                }
+
+                active?.Activate();
+            }
+        }
     }
 }
