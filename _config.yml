@@ -1,7 +1,7 @@
 title: Voltura Earner
 description: Track work, earnings, and overtime with clear local reports.
-url: https://voltura.github.io
-baseurl: /voltura-earner
+url: https://earner.voltura.se
+baseurl: ""
 lang: en
 repository: voltura/voltura-earner
 exclude:
