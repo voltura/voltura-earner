@@ -1,4 +1,4 @@
-param([switch]$SkipTests)
+param([switch]$SkipTests, [string]$SigningConfig = $env:VOLTURA_AIR_INSTALLER_SIGNING_CONFIG)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 
@@ -41,6 +41,11 @@ try
     if (-not (Test-Path -LiteralPath $nsis))
     {
         throw 'NSIS is required.'
+    }
+
+    if ($SigningConfig)
+    {
+        & "$PSScriptRoot\sign-installer.ps1" -SigningConfig $SigningConfig -Path 'preflight.exe' -ValidateOnly
     }
 
     if (-not $SkipTests)
@@ -141,6 +146,11 @@ try
         if ($LASTEXITCODE)
         {
             throw 'NSIS compilation failed.'
+        }
+
+        if ($SigningConfig)
+        {
+            & "$PSScriptRoot\sign-installer.ps1" -SigningConfig $SigningConfig -Path $output
         }
     }
 

@@ -50,6 +50,11 @@ try
 
     if ($BuildPackages)
     {
+        if ([string]::IsNullOrWhiteSpace($env:VOLTURA_AIR_INSTALLER_SIGNING_CONFIG))
+        {
+            throw 'Set VOLTURA_AIR_INSTALLER_SIGNING_CONFIG to the Voltura Air installer signing configuration before releasing.'
+        }
+
         & "$PSScriptRoot\package.ps1" -SkipTests:$SkipTests
     }
 

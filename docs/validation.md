@@ -39,3 +39,5 @@ Before release, manually exercise live tray toggle, header drag, pinning, Escape
 Initialize a key only when establishing or intentionally rotating release trust. Keep the encrypted private key and its passphrase file outside the checkout, and back them up securely. Commit only the embedded public key. `VOLTURA_EARNER_UPDATE_SIGNING_PASSPHRASE` can supply an existing key's passphrase. A locally protected passphrase file is bound to its Windows user account.
 
 Run `scripts/release.ps1` locally; omitting `-PrepareOnly` publishes the release after validation. Review source changes and release notes first. Do not use `-NoTests` for a release without a separately verified test run of the same source.
+
+Release packaging requires `VOLTURA_AIR_INSTALLER_SIGNING_CONFIG`, the same JSON configuration used by Voltura Air. It selects the certificate in `Cert:\CurrentUser\My` and an RFC 3161 timestamp service. Both NSIS installers are signed and verified before the update manifest hashes them. The self-signed certificate does not establish public trust or SmartScreen reputation. Direct packaging without the configuration remains unsigned for local testing.

@@ -1,5 +1,7 @@
 $ErrorActionPreference = 'Stop'
 $testRoot = Join-Path ([IO.Path]::GetTempPath()) ('Earner-signing-test-' + [Guid]::NewGuid().ToString('N'))
+$savedInstallerConfig = $env:VOLTURA_AIR_INSTALLER_SIGNING_CONFIG
+$env:VOLTURA_AIR_INSTALLER_SIGNING_CONFIG = 'fixture.json'
 $savedPassphrase = $env:VOLTURA_EARNER_UPDATE_SIGNING_PASSPHRASE
 $testPassword = ' test signing passphrase '
 $rsa = [Security.Cryptography.RSA]::Create(2048)
@@ -219,6 +221,7 @@ foreach ($suffix in @('', '-full'))
 }
 finally
 {
+    $env:VOLTURA_AIR_INSTALLER_SIGNING_CONFIG = $savedInstallerConfig
     $env:VOLTURA_EARNER_UPDATE_SIGNING_PASSPHRASE = $savedPassphrase
 
     $rsa.Dispose()
