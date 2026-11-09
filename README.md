@@ -79,7 +79,7 @@
 </section>
 
 <section class="section download" id="download" aria-labelledby="download-title">
-  <div class="download-copy"><p class="eyebrow">Get Voltura Earner</p><h2 id="download-title">Start with a clearer day.</h2><p>The first release is being prepared. Published packages will appear on the releases page. You can also build the current source using the contributing guide.</p><a class="button button-primary" href="https://github.com/voltura/voltura-earner/releases">View releases</a></div>
+  <div class="download-copy"><p class="eyebrow">Get Voltura Earner</p><h2 id="download-title">Start with a clearer day.</h2><p>Download a Windows installer or the portable ZIP for 64-bit Windows.</p><a class="button button-primary" href="https://github.com/voltura/voltura-earner/releases/latest">Download for Windows</a></div>
   <div class="package-list" aria-label="Package types">
     <article class="package recommended"><div><span class="package-label">Recommended</span><h3>Standard installer</h3></div><p>A smaller download. Installs the Microsoft .NET 10 Desktop Runtime if needed.</p><code>Setup-…-win-x64.exe</code></article>
     <article class="package"><div><h3>Offline installer</h3></div><p>Includes the runtime, without a separate runtime download.</p><code>Setup-…-win-x64-full.exe</code></article>
