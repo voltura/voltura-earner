@@ -4,9 +4,9 @@
     "net10.0-windows7.0": {
       "MiniExcel": {
         "type": "Direct",
-        "requested": "[1.46.0, )",
-        "resolved": "1.46.0",
-        "contentHash": "IMmli1Hc3/Axst8hcuUx30q/2HTKH2f3nmduiy59wvpth1u0881fZMEMAy4Inl3GBkdrVXA8UUpF5lyoWREdLQ=="
+        "requested": "[1.47.1, )",
+        "resolved": "1.47.1",
+        "contentHash": "ZN4Uu2nPcWII3tR0xch0RtGTeB3CLOdpYZEJIWXqrCmNZ55WBhw9mzZ91QJ97cjBi2SFvyd2aiVU0hFhZ9zTjg=="
       }
     },
     "net10.0-windows7.0/win-x64": {}
