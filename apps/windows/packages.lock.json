@@ -4,9 +4,35 @@
     "net10.0-windows7.0": {
       "MiniExcel": {
         "type": "Direct",
-        "requested": "[1.46.0, )",
-        "resolved": "1.46.0",
-        "contentHash": "IMmli1Hc3/Axst8hcuUx30q/2HTKH2f3nmduiy59wvpth1u0881fZMEMAy4Inl3GBkdrVXA8UUpF5lyoWREdLQ=="
+        "requested": "[2.0.0, )",
+        "resolved": "2.0.0",
+        "contentHash": "1jpLJPA13HwivXFgWVCG7dFQNWk2lmF5T3v+hKzsFn8vbExBYK7EpNVhA+/mIoTUXMBb1XuqXfBKbBgrWyh/pA==",
+        "dependencies": {
+          "MiniExcel.Core": "2.0.0",
+          "MiniExcel.Csv": "2.0.0",
+          "MiniExcel.OpenXml": "2.0.0"
+        }
+      },
+      "MiniExcel.Core": {
+        "type": "Transitive",
+        "resolved": "2.0.0",
+        "contentHash": "20FkVPe5t5MsBy386D2pscGOYJuhmLZoZe9fQcP2iIEWHWrJNlcVQDnQcw0GwroEodmNt+6r8N6EygfUGsRu1Q=="
+      },
+      "MiniExcel.Csv": {
+        "type": "Transitive",
+        "resolved": "2.0.0",
+        "contentHash": "tovqrKvDgA5uw0YkGpy9ByGXTmgUaqoEQf5IJlF/Vz87P1sBM2D0clUnMbr2M37c5k2Bh4VOxZDrG3al9gB4Pg==",
+        "dependencies": {
+          "MiniExcel.Core": "2.0.0"
+        }
+      },
+      "MiniExcel.OpenXml": {
+        "type": "Transitive",
+        "resolved": "2.0.0",
+        "contentHash": "eb8UjPyUxaAOD25c/VDOe16CSl3lDNNVz4Y20/VRxpQ5oSQJMMRAXy8ZrYzf0mh9ltcHB88o+xAzO1hoenKJhw==",
+        "dependencies": {
+          "MiniExcel.Core": "2.0.0"
+        }
       }
     },
     "net10.0-windows7.0/win-x64": {}
