@@ -35,6 +35,6 @@
     <None Include="../../docs/licenses/*" Link="ThirdPartyNotices/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MiniExcel" Version="1.46.0"/>
+    <PackageReference Include="MiniExcel" Version="2.0.0"/>
   </ItemGroup>
 </Project>
